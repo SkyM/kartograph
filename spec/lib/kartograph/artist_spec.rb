@@ -46,6 +46,19 @@ describe Kartograph::Artist do
       end
     end
 
+    context 'for a property marked as optional' do
+      it 'skips adding the key if the value is nil' do
+        object     = double('object', hello: 'world', foo: nil,)
+        properties << Kartograph::Property.new(:hello, scopes: [:create, :read])
+        properties << Kartograph::Property.new(:foo, scopes: [:create, :read], omit_nil: true)
+
+        artist = Kartograph::Artist.new(map)
+        masterpiece = artist.draw(object, :read)
+
+        expect(masterpiece).to eq('hello' => 'world')
+      end
+    end
+
     context 'for filtered drawing' do
       it 'only returns the scoped properties' do
         object     = double('object', hello: 'world', foo: 'bar')
