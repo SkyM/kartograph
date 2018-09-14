@@ -80,6 +80,10 @@ module Kartograph
           loaded = loaded[root_key]
         end
 
+        if loaded.nil?
+          return []
+        end
+
         loaded.map do |object|
           Sculptor.new(object, @kartograph_map).sculpt(scope)
         end

@@ -253,5 +253,25 @@ describe Kartograph::DSL do
         expect(extracted[1].name).to eq(scoped[1][:name])
       end
     end
+
+    context 'empty array value' do
+      let(:json) { [] }
+      it 'returns an empty array' do
+        extracted = mapped.extract_collection(json.to_json, :read)
+
+        expect(extracted.size).to be(0)
+        expect(extracted).to be_kind_of(Array)
+      end
+    end
+
+    context 'null value' do
+      let(:json) {nil}
+      it 'returns an empty array' do
+        extracted = mapped.extract_collection(json.to_json, :read)
+
+        expect(extracted.size).to be(0)
+        expect(extracted).to be_kind_of(Array)
+      end
+    end
   end
 end
